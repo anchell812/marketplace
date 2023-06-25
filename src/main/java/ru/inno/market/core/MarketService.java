@@ -16,7 +16,11 @@ public class MarketService {
     }
 
     public int createOrderFor(Client client){
-        int id = orderCounter++;
+        if (client == null) {
+            throw new IllegalArgumentException("Client is required");
+        }
+
+        int id = ++orderCounter;
         Order order = new Order(id, client);
         orders.put(id, order);
 
@@ -24,6 +28,7 @@ public class MarketService {
     }
 
     public void addItemToOrder(Item item, int orderId ){
+
         orders.get(orderId).addItem(item);
     }
 
@@ -34,6 +39,7 @@ public class MarketService {
     }
 
     public Order getOrderInfo(int id) {
+
         return orders.get(id);
     }
 }
