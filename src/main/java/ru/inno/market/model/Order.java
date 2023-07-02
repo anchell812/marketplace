@@ -1,5 +1,6 @@
 package ru.inno.market.model;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,7 +35,10 @@ public class Order {
         totalPrice += item.getPrice();
     }
 
-    public void applyDiscount(double discount) {
+    public void applyDiscount(double discount) throws IllegalArgumentException  {
+        if (discount <= 0 || discount >= 1) {
+            throw new IllegalArgumentException("Скидка должна быть дробным числом со значением от 0 до 1 не включительно ");
+        }
         if (!discountApplied) {
             totalPrice *= (1- discount);
             discountApplied = true;

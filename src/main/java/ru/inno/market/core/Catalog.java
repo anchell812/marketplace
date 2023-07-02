@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class Catalog {
-    private Map<Item, Integer> storage;
+    public Map<Item, Integer> storage;
 
     public Catalog() {
         storage = new HashMap<>();
@@ -63,19 +63,21 @@ public class Catalog {
         );
     }
 
-    public Item getItemById(int id){
+    public Item getItemById(int id) {
         Item item = storage.keySet().stream().filter(x -> x.getId() == id).findFirst().orElseThrow();
-        int count = storage.get(item);
-        if (count > 0){
-            count -= 1;
-            storage.put(item, count);
-            return item;
-        }
-        throw new NoSuchElementException("Товар закончился");
+
+        return item;
 
     }
 
-    public int getCountForItem(Item i){
-        return storage.get(i);
+    public int getCountForItem(Item i) throws NoSuchElementException{
+        int count = storage.get(i);
+        if (count > 0){
+            count -= 1;
+            storage.put(i, count);
+            return count;
+        }
+        throw new NoSuchElementException("Товар закончился");
+
     }
 }
